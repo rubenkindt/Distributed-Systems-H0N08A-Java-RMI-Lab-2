@@ -95,6 +95,7 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 	public void removeManagerSession(String name) {
 		mSessions.remove(name);
 	}
-		
+	
+	
 	
 }

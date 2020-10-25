@@ -4,15 +4,14 @@ import java.util.List;
 
 import rental.InterfaceCarRentalCompany;
 
-public class ManagerSession {
+public class ManagerSession extends Session{
 
 	public String name;
 
 	private static List<InterfaceCarRentalCompany> comp;
 	
-	public ManagerSession(String managerName,List<InterfaceCarRentalCompany> comp) {
-		this.name=managerName;
-		this.comp=comp;
+	public ManagerSession(String name,List<InterfaceCarRentalCompany> comp) {
+		super(name,comp);
 	}
 	
 	

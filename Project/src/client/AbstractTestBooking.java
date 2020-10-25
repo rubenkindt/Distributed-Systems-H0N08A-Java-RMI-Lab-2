@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import rental.Reservation;
+import centralRentalAgency.*;
+
 
 /*
  * This class contains the abstract methods that a client should implement
@@ -45,7 +47,7 @@ public abstract class AbstractTestBooking<ReservationSession, ManagerSession> ex
      * @throws Exception if things go wrong, throw exception
      */
     protected abstract void checkForAvailableCarTypes(ReservationSession session, Date start, Date end) throws Exception;
-
+    
     /**
      * Add a quote for a given car type to the session.
      *
@@ -225,4 +227,6 @@ public abstract class AbstractTestBooking<ReservationSession, ManagerSession> ex
             }
         }
     }
+
+	
 }

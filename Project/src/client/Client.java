@@ -8,6 +8,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
@@ -17,9 +18,13 @@ import rental.InterfaceCarRentalCompany;
 import rental.Quote;
 import rental.Reservation;
 import rental.ReservationConstraints;
-import centralRentalAgency.*;
+import centralRentalAgency.InterfaceCentralRentalAgency;
+import centralRentalAgency.ManagerSession;
+import centralRentalAgency.ReservationSession;
+import centralRentalAgency.Session;
 
-public class Client extends AbstractTestBooking {
+
+public class Client extends AbstractTestManagement {
 
 	/********
 	 * MAIN *
@@ -30,7 +35,7 @@ public class Client extends AbstractTestBooking {
 	
 	private InterfaceCentralRentalAgency cra;
 	private ReservationSession rSession;
-	
+	private ManagerSession mSession;
 	
 
 	/**
@@ -85,30 +90,55 @@ public class Client extends AbstractTestBooking {
 		
 	
 	}
+	/*********************
+	 * manager functions *
+	 ********************/
+	
+	@Override
+	protected Set getBestClients(Object ms) throws Exception {
+		return null;
+	}
 
 	@Override
+	protected String getCheapestCarType(Object session, Date start, Date end, String region) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected CarType getMostPopularCarTypeInCRC(Object ms, String carRentalCompanyName, int year) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	/*******************
+	 * client bookings *
+	 ******************/
+	
+	
+	@Override
 	protected ReservationSession getNewReservationSession(String name) throws Exception {
-		rSession=cra.getNewReservationSession(name);
-		sessions.put(name, rSession);
-		return rSession;
+		return cra.getNewReservationSession(name);
 	}
 
 	@Override
 	protected ManagerSession getNewManagerSession(String name) throws Exception {
-		mSession=cra.getNewManagerSession(name);
-		sessions.put(name, mSession);
-		return mSession;
+		return cra.getNewManagerSession(name);
 	}
 
 	@Override
 	protected void checkForAvailableCarTypes(Object session, Date start, Date end) throws Exception {
-		
-		// TODO Auto-generated method stub
+		Session s=(Session)session;
+		s.checkAvailableCarTYpes(start, end);
 	}
 
 	@Override
 	protected void addQuoteToSession(Object session, String name, Date start, Date end, String carType, String region)
 			throws Exception {
+		
+		Session s=(Session)session;
+		s.addQuoteToSession()
 		// TODO Auto-generated method stub
 		
 	}
@@ -133,4 +163,6 @@ public class Client extends AbstractTestBooking {
 
 	
 
+
+	
 }
