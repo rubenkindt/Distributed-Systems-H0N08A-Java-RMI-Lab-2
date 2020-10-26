@@ -43,7 +43,6 @@ public class CentralRentalAgencyServer {
 		// indicates whether the application is run on the remote setup or not.
 		int localOrRemote = (args.length == 1 && args[0].equals("REMOTE")) ? REMOTE : LOCAL;
 		
-		
 		if (localOrRemote==LOCAL) {
 			if (System.getSecurityManager() != null) {
 				System.setSecurityManager(null);
@@ -71,7 +70,7 @@ public class CentralRentalAgencyServer {
 		
 		//sets stubs of companies (herz and dockx)
 		List<InterfaceCarRentalCompany> comp;
-		RentalServer companies =new RentalServer();
+		//RentalServer companies =new RentalServer();
 		comp=RentalServer.main(localOrRemote);
 		
 		InterfaceCentralRentalAgency carRentalAgency = new CentralRentalAgency("CRA",comp);

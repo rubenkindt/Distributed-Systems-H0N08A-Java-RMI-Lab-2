@@ -16,13 +16,8 @@ public interface InterfaceCentralRentalAgency extends Remote{
 	
  	public String getName() throws RemoteException;
 
-
-    // TODO remove comment 25/10
-	
-
 	public ReservationSession getNewReservationSession(String name);
 	public void removeReservationSession(String name);
-
 
 	public ManagerSession getNewManagerSession(String name);
 	public void removeManagerSession(String name);

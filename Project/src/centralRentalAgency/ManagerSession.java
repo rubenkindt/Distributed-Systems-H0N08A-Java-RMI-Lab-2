@@ -35,7 +35,7 @@ public class ManagerSession extends ReservationSession{
 
 	public int getNumberOfReservationsForCarType(String carRentalName, String carType) throws Exception {
 		for (int i=0;i<comp.size();i++) {
-			if (comp.get(i).equals(carRentalName)) {
+			if (comp.get(i).getName().equals(carRentalName)) {
 				return comp.get(i).getNumberOfReservationsForCarType(carType);
 			}
 		}
@@ -75,11 +75,8 @@ public class ManagerSession extends ReservationSession{
 				}
 			}
 		}
-			
 		return best;
 	}
-	
-	
 	
 	public void removeClient(String clientName) {
 		

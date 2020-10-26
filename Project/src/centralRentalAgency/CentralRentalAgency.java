@@ -16,24 +16,16 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import rental.Car;
-import rental.CarType;
+
 import rental.InterfaceCarRentalCompany;
-import rental.Quote;
-import rental.RentalServer;
-import rental.Reservation;
-import rental.ReservationConstraints;
-import rental.ReservationException;
 
 import javax.swing.Spring;
 
-import client.Client;
 
 public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 
 	private static Logger logger = Logger.getLogger(CentralRentalAgency.class.getName());
 	
-	private List<InterfaceCarRentalCompany> crc; //crc=car rental company
 	private String name;
 	private Map<String, ReservationSession> resSessions = new HashMap<String, ReservationSession>();
 	//private Map<String, ManagerSession> mSessions = new HashMap<String, ManagerSession>();
@@ -50,7 +42,7 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 		logger.log(Level.INFO, "<{0}> Car Rental Company {0} starting up...", name);
 		setName(name);
 		logger.log(Level.INFO, this.toString());
-		this.comp=comp;
+		CentralRentalAgency.comp=comp;
 	}
 
 	/********
@@ -65,15 +57,7 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 		this.name = name;
 	}
 
-    /***********
-     * Regions *
-     **********/
-    private List<InterfaceCarRentalCompany> getCrc() {
-        return this.crc;
-    }
-
-	
-	@Override
+    @Override
 	public ReservationSession getNewReservationSession(String name) {
 		ReservationSession resSession = new ReservationSession(name, comp);
 		resSessions.put(name, resSession);
