@@ -12,19 +12,14 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
-import rental.CarRentalCompany;
 import rental.CarType;
-import rental.InterfaceCarRentalCompany;
-import rental.Quote;
 import rental.Reservation;
-import rental.ReservationConstraints;
 import centralRentalAgency.InterfaceCentralRentalAgency;
 import centralRentalAgency.ManagerSession;
 import centralRentalAgency.ReservationSession;
-import centralRentalAgency.Session;
 
 
-public class Client extends AbstractTestManagement {
+public class Client extends AbstractTestManagement<ReservationSession,ManagerSession> {
 
 	/********
 	 * MAIN *
@@ -34,9 +29,6 @@ public class Client extends AbstractTestManagement {
 	private final static int REMOTE = 1;
 	
 	private InterfaceCentralRentalAgency cra;
-	private ReservationSession rSession;
-	private ManagerSession mSession;
-	
 
 	/**
 	 * The `main` method is used to launch the client application and run the test
@@ -95,20 +87,19 @@ public class Client extends AbstractTestManagement {
 	 ********************/
 	
 	@Override
-	protected Set getBestClients(Object ms) throws Exception {
-		return null;
+	protected Set<String> getBestClients(ManagerSession ms) throws Exception {
+		return  ((ManagerSession) ms).getBestClients();
+		
 	}
 
 	@Override
-	protected String getCheapestCarType(Object session, Date start, Date end, String region) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	protected String getCheapestCarType(ReservationSession session, Date start, Date end, String region) throws Exception {
+		return session.getCheapestCarType( start, end, region);
 	}
 
 	@Override
-	protected CarType getMostPopularCarTypeInCRC(Object ms, String carRentalCompanyName, int year) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	protected CarType getMostPopularCarTypeInCRC(ManagerSession ms, String carRentalCompanyName, int year) throws Exception {
+		return ((ManagerSession) ms).getMostPopularCarTypeInCRC(carRentalCompanyName,year);
 	}
 
 	
@@ -128,41 +119,30 @@ public class Client extends AbstractTestManagement {
 	}
 
 	@Override
-	protected void checkForAvailableCarTypes(Object session, Date start, Date end) throws Exception {
-		Session s=(Session)session;
-		s.checkAvailableCarTYpes(start, end);
+	protected void checkForAvailableCarTypes(ReservationSession session, Date start, Date end) throws Exception {
+		session.checkAvailableCarTYpes(start, end);
 	}
 
 	@Override
-	protected void addQuoteToSession(Object session, String name, Date start, Date end, String carType, String region)
-			throws Exception {
-		
-		Session s=(Session)session;
-		s.addQuoteToSession()
-		// TODO Auto-generated method stub
+	protected void addQuoteToSession(ReservationSession session, String name, Date start, Date end, String carType, String region) throws Exception {
+		session.addQuoteToSession(name, start, end, carType, region);
 		
 	}
 
 	@Override
-	protected List confirmQuotes(Object session, String name) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<Reservation> confirmQuotes(ReservationSession session, String name) throws Exception {
+		List<Reservation> list = session.confirmQuotes(name);
+		return list;
 	}
 
 	@Override
-	protected int getNumberOfReservationsByRenter(Object ms, String clientName) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	protected int getNumberOfReservationsByRenter(ManagerSession ms, String clientName) throws Exception {
+		return ms.getNumberOfReservationsByRenter(clientName);
 	}
 
 	@Override
-	protected int getNumberOfReservationsForCarType(Object ms, String carRentalName, String carType) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	protected int getNumberOfReservationsForCarType(ManagerSession ms, String carRentalName, String carType) throws Exception {
+		return ms.getNumberOfReservationsForCarType(carRentalName,carType);
 	}
 
-	
-
-
-	
 }
