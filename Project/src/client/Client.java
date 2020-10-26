@@ -22,7 +22,7 @@ import centralRentalAgency.ReservationSession;
 public class Client extends AbstractTestManagement<ReservationSession,ManagerSession> {
 
 	/********
-	 * MAIN *
+	 * MAIN * 
 	 ********/
 
 	private final static int LOCAL = 0;

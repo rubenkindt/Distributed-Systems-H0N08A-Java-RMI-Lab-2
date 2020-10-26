@@ -36,7 +36,9 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 	private List<InterfaceCarRentalCompany> crc; //crc=car rental company
 	private String name;
 	private Map<String, ReservationSession> resSessions = new HashMap<String, ReservationSession>();
-	private Map<String, ManagerSession> mSessions = new HashMap<String, ManagerSession>();
+	//private Map<String, ManagerSession> mSessions = new HashMap<String, ManagerSession>();
+	// only one Manager
+	private ManagerSession mSession= null;
 
 	private static List<InterfaceCarRentalCompany> comp;
 	
@@ -75,25 +77,31 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 	public ReservationSession getNewReservationSession(String name) {
 		ReservationSession resSession = new ReservationSession(name, comp);
 		resSessions.put(name, resSession);
+		if (mSession!=null) {
+			mSession.addClient(resSession);
+		}
 		return resSession;
 	}
 
 	@Override
 	public void removeReservationSession(String name) {
 		resSessions.remove(name);
+		if (mSession!=null) {
+			mSession.removeClient(name);
+		}
 	}
 
 	
 	@Override
 	public ManagerSession getNewManagerSession(String name) {
-		ManagerSession mSession = new ManagerSession(name,comp);
-		mSessions.put(name, mSession);
-		return mSession ;
+		List<ReservationSession> clients = new ArrayList<ReservationSession>(resSessions.values());
+		this.mSession = new ManagerSession(name,comp,clients);
+		return this.mSession ;
 	}
 
 	@Override
 	public void removeManagerSession(String name) {
-		mSessions.remove(name);
+		this.mSession=null;
 	}
 	
 	
