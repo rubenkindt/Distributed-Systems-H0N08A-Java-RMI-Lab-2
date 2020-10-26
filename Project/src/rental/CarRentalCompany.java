@@ -101,7 +101,7 @@ public class CarRentalCompany implements InterfaceCarRentalCompany{
 	/*********
 	 * CARS *
 	 *********/
-	public int getNumberOfReservationsForCarType(String carType) {
+public int getNumberOfReservationsForCarType(String carType) {
 		
 		int nrofRes=0;
 		for (int car =0;car<=cars.size();car++) {
@@ -113,6 +113,26 @@ public class CarRentalCompany implements InterfaceCarRentalCompany{
 		}
 		return nrofRes;
 	}
+
+	public CarType gethigestNumberOfReservationsForYear(int year) {
+	CarType bestCarType=null;
+	int best=0;
+	for (int car =0;car<=cars.size();car++) {
+		
+		List<Reservation> resList=cars.get(car).GetReservations();
+		int completeConstraint=0;
+		for (int j=0;j<resList.size();j++) {
+			if(resList.get(j).getStartDate().getYear()==year){
+				completeConstraint++;
+			}
+		}
+		if(best<completeConstraint) {
+			best=completeConstraint;
+			bestCarType=cars.get(car).getType();
+		}
+	}
+	return bestCarType;
+}
 	
 	private Car getCar(int uid) {
 		for (Car car : cars) {

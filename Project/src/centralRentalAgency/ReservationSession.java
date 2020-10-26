@@ -18,16 +18,13 @@ public class ReservationSession {
 	
 	public String name;
 
-	private static List<InterfaceCarRentalCompany> comp;
-	private List<Quote> quoteList=new ArrayList<Quote>();
+	protected static List<InterfaceCarRentalCompany> comp;
+	protected List<Quote> quoteList=new ArrayList<Quote>();
+	protected List<Reservation> resList=new ArrayList<Reservation>();
 	
 	public ReservationSession(String Name,List<InterfaceCarRentalCompany> comp) {
 		this.name=Name;
 		ReservationSession.setComp(comp);
-	}
-	
-	public static List<InterfaceCarRentalCompany> getComp() {
-		return comp;
 	}
 
 
@@ -39,8 +36,8 @@ public class ReservationSession {
 		//following javaDoc: return void
 		Set<CarType> set=new HashSet<CarType>();
 		
-		for (int i=0;i<getComp().size();i++) {
-			set.addAll(getComp().get(i).getAvailableCarTypes(start, end));
+		for (int i=0;i<comp.size();i++) {
+			set.addAll(comp.get(i).getAvailableCarTypes(start, end));
 			
 		}
 	}
@@ -49,9 +46,9 @@ public class ReservationSession {
 
 		ReservationConstraints constraint = new ReservationConstraints(end, end, region, region);
 		List<Quote> q=new ArrayList<Quote>();
-		for (int i=0;i<getComp().size();i++) {
+		for (int i=0;i<comp.size();i++) {
 			try {
-				q.add(getComp().get(i).createQuote(constraint, name));
+				q.add(comp.get(i).createQuote(constraint, name));
 			} catch (ReservationException e) {
 				
 			}
@@ -66,29 +63,32 @@ public class ReservationSession {
 
 
 	public List<Reservation> confirmQuotes(String name2) throws RemoteException, ReservationException {
-		
-		List<Reservation> resList=new ArrayList<Reservation>();
+		List<Reservation> reservationList=new ArrayList<Reservation>();
 		
 		for (int quote=0;quote<quoteList.size();quote++) {
 			String compName=quoteList.get(quote).getRentalCompany();
-			for (int company=0;company<getComp().size();company++) {
-				if (compName==getComp().get(company).getName()) {
-					resList.add(getComp().get(company).confirmQuote(quoteList.get(quote)));
-					break;
+			for (int company=0;company<comp.size();company++) {
+				if (compName==comp.get(company).getName()) {
+					reservationList.add(comp.get(company).confirmQuote(quoteList.get(quote)));
+					
 				}
 			}
 		}
-		
-		return resList;
+		this.resList=reservationList;
+		return this.resList;
 	}
 
+
+	public List<Reservation> getResList() {
+		return resList;
+	}
 
 	public String getCheapestCarType(Date start, Date end, String region) throws Exception {
 		
 		ReservationConstraints constraint = new ReservationConstraints(end, end, region, region);
 		List<Quote> q=new ArrayList<Quote>();
-		for (int company=0;company<getComp().size();company++) {
-			q.add(getComp().get(company).createQuote(constraint, name));
+		for (int company=0;company<comp.size();company++) {
+			q.add(comp.get(company).createQuote(constraint, name));
 		
 		}
 		Quote cheap=q.get(0);
