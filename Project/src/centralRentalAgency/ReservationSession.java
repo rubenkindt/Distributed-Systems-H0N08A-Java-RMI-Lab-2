@@ -22,7 +22,7 @@ public class ReservationSession {
 	}
 	
 
-	public void checkAvailableCarTYpes( Date start, Date end){
+	public void checkAvailableCarTYpes(Date start, Date end){
 		//following javaDoc: return void
 		Set<CarType> set=new HashSet<CarType>();
 		

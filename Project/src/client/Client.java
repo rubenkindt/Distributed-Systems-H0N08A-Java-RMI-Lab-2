@@ -88,7 +88,7 @@ public class Client extends AbstractTestManagement<ReservationSession,ManagerSes
 	
 	@Override
 	protected Set<String> getBestClients(ManagerSession ms) throws Exception {
-		return  ((ManagerSession) ms).getBestClients();
+		return  ms.getBestClients();
 		
 	}
 
@@ -99,7 +99,7 @@ public class Client extends AbstractTestManagement<ReservationSession,ManagerSes
 
 	@Override
 	protected CarType getMostPopularCarTypeInCRC(ManagerSession ms, String carRentalCompanyName, int year) throws Exception {
-		return ((ManagerSession) ms).getMostPopularCarTypeInCRC(carRentalCompanyName,year);
+		return ms.getMostPopularCarTypeInCRC(carRentalCompanyName,year);
 	}
 
 	
