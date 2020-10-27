@@ -16,8 +16,8 @@
 	
 	<property name="client.package" value="client" />  <!-- Client package --> 
 	<property name="client.mainClass" value="Client" />  <!-- Main class of client package (contains client `main` method) -->
-	<property name="server.package" value="rental" />  <!-- Server package --> 
-	<property name="server.mainClass" value="RentalServer" />  <!-- Main class of server package (contains client `main` method) -->
+	<property name="server.package" value="centralRentalAgency" />  <!-- Server package --> 
+	<property name="server.mainClass" value="CentralRentalAgencyServer" />  <!-- Main class of server package (contains client `main` method) -->
 	
 	<property name="zip.filename" value="rmi2.Ruben.Kindt" />  <!-- Name of zip file -->
 
@@ -27,8 +27,8 @@
 	   using the remote setup to test your application.	   
     ************************************************************* -->
 	
-	<property name="remote.username" value="USERNAME" />  <!-- Remote server: username -->
-	<property name="remote.password" value="PASSWORD" />  <!-- Remote server: password -->
+	<property name="remote.username" value="rmi017" />  <!-- Remote server: username -->
+	<property name="remote.password" value="AGKX62ZT6EOT" />  <!-- Remote server: password -->
 
 	<property name="remote.startRegistry" value="false" />  <!-- Remote server: start RMI registry or not -->
 	<property name="remote.registryPort" value="0" />  <!-- Remote server: on which port to start RMI registry -->
