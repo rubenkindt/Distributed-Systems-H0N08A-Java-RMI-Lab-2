@@ -12,12 +12,11 @@ import rental.InterfaceCarRentalCompany;
 
 public class ManagerSession extends ReservationSession{
 
-	public String name;
 	private List<ReservationSession> clients =new ArrayList<ReservationSession>();
 	
 	public ManagerSession(String name,List<InterfaceCarRentalCompany> comp, List<ReservationSession> Clients) {
 		super(name,comp);
-		
+		setClients(clients);
 	}
 	public void setClients(List<ReservationSession> clients) {
 		this.clients = clients;

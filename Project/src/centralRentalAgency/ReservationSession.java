@@ -16,18 +16,28 @@ import rental.ReservationConstraints;
 import rental.ReservationException;
 
 public class ReservationSession implements Serializable{
+
 	
+	private static final long serialVersionUID = 1L;
+
 	public String name;
 
 	protected static List<InterfaceCarRentalCompany> comp;
 	protected List<Quote> quoteList=new ArrayList<Quote>();
-	protected List<Reservation> resList=new ArrayList<Reservation>();
+	protected List<Reservation> resList=null;//new ArrayList<Reservation>();
 	
 	public ReservationSession(String Name,List<InterfaceCarRentalCompany> comp) {
 		this.name=Name;
 		ReservationSession.setComp(comp);
+		System.out.println("AAAAAAAAAAAAAA");
+		System.out.println(Integer.toString(ReservationSession.getComp().size()));
+		System.out.println("BBBBBBBBBBBBBBBBBBBB");
+		
 	}
-
+	
+	public static List<InterfaceCarRentalCompany> getComp() {
+		return comp;
+	}
 
 	public static void setComp(List<InterfaceCarRentalCompany> comp) {
 		ReservationSession.comp = comp;
@@ -35,11 +45,21 @@ public class ReservationSession implements Serializable{
 
 	public void checkAvailableCarTYpes(Date start, Date end) throws RemoteException{
 		//following javaDoc: return void
-		Set<CarType> set=new HashSet<CarType>();
+		System.out.println("CCCCCCCC");
+		System.out.println(Integer.toString(ReservationSession.getComp().size()));
+		System.out.println("DDDDDDDD");
+		
+		Set<CarType> s = new HashSet<CarType>();
+
+		System.out.println("EEEEEEEE");
 		
 		for (int i=0;i<comp.size();i++) {
-			set.addAll(comp.get(i).getAvailableCarTypes(start, end));
+			Set<CarType> out=comp.get(i).getAvailableCarTypes(start, end);
 			
+			for (int j=0;j<out.size();j++) {
+				s.add(out.iterator().next());
+			}
+
 		}
 	}
 
