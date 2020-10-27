@@ -9,3 +9,4 @@ Project/bin/*
 
 Project/bin/
 *.class
+Project/bin/client/Client.class

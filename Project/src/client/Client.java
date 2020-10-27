@@ -17,8 +17,6 @@ import rental.Reservation;
 import centralRentalAgency.InterfaceCentralRentalAgency;
 import centralRentalAgency.InterfaceManagerSession;
 import centralRentalAgency.InterfaceReservationSession;
-import centralRentalAgency.ManagerSession;
-import centralRentalAgency.ReservationSession;
 
 
 public class Client extends AbstractTestManagement<InterfaceReservationSession,InterfaceManagerSession> {
