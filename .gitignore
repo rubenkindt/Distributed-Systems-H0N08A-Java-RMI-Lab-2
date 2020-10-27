@@ -4,3 +4,6 @@ visual diagram 16.2 temp files
 *.bak_*
 t.txt
 *.class
+
+\*.class
+/*.class
