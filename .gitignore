@@ -6,3 +6,5 @@ t.txt
 *.class
 
 Project/bin/*
+
+Project/bin/
