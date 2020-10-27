@@ -5,6 +5,4 @@ visual diagram 16.2 temp files
 t.txt
 *.class
 
-\*.class
-/*.class
-Project/bin/client/Client.class
+Project/bin/
