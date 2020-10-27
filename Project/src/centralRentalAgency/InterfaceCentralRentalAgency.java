@@ -16,11 +16,11 @@ public interface InterfaceCentralRentalAgency extends Remote{
 	
  	public String getName() throws RemoteException;
 
-	public ReservationSession getNewReservationSession(String name);
-	public void removeReservationSession(String name);
+	public ReservationSession getNewReservationSession(String name) throws RemoteException;
+	public void removeReservationSession(String name) throws RemoteException;
 
-	public ManagerSession getNewManagerSession(String name);
-	public void removeManagerSession(String name);
+	public ManagerSession getNewManagerSession(String name) throws RemoteException;
+	public void removeManagerSession(String name) throws RemoteException;
 	 	
 	 
 }

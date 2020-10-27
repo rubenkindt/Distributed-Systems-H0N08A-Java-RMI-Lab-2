@@ -1,5 +1,6 @@
 package centralRentalAgency;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +15,7 @@ import rental.Reservation;
 import rental.ReservationConstraints;
 import rental.ReservationException;
 
-public class ReservationSession {
+public class ReservationSession implements Serializable{
 	
 	public String name;
 
