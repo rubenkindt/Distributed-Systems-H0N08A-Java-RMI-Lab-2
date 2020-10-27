@@ -30,11 +30,7 @@ public class ReservationSession implements InterfaceReservationSession{
 	public ReservationSession(String Name,ArrayList<InterfaceCarRentalCompany> comp) throws RemoteException{
 		this.name=Name;
 		ReservationSession.setComp(comp);
-		
-		/*System.out.println("AAAAAAAAAAAAAA");
-		System.out.println(Integer.toString(ReservationSession.getComp().size()));
-		System.out.println("BBBBBBBBBBBBBBBBBBBB");
-		*/
+	
 	}
 	
 	@Override
@@ -89,20 +85,47 @@ public class ReservationSession implements InterfaceReservationSession{
 		throw new Exception("Not able to create valid Quotes" );
 	}
 
-
-	public List<Reservation> confirmQuotes(String name2) throws RemoteException, ReservationException {
+	public List<Reservation> confirmQuotes(String clientName) throws Exception {
+		if (!this.getName().equals(clientName)) {
+			throw new Exception("wrong client Name");
+		}
 		List<Reservation> reservationList=new ArrayList<Reservation>();
 		
+		boolean succes=true;
 		for (int quote=0;quote<quoteList.size();quote++) {
+			
 			String compName=quoteList.get(quote).getRentalCompany();
 			for (int company=0;company<comp.size();company++) {
-				if (compName==comp.get(company).getName()) {
-					reservationList.add(comp.get(company).confirmQuote(quoteList.get(quote)));
+				if (compName.equals(comp.get(company).getName())) {
+					try {
+						Reservation res=comp.get(company).confirmQuote(quoteList.get(quote));
+						reservationList.add(res);	
+					}
+					catch (ReservationException e){
+						succes=false;
+					}
 					
 				}
 			}
 		}
-		this.resList=reservationList;
+		if (!succes) {
+			InterfaceCarRentalCompany compa=null;
+			for (int i=0;i<reservationList.size();i++) {
+				String compaName=reservationList.get(i).getRentalCompany();
+				for (int company=0;company<comp.size();company++) {
+					if (comp.get(company).getName().equals(compaName)) {
+						compa=comp.get(company);
+						break;
+					}
+				}
+				if (compa!=null) {
+					compa.cancelReservation(reservationList.get(i));
+				}
+			}
+			reservationList.clear();
+		}
+		
+		this.resList.addAll(reservationList);
 		return this.resList;
 	}
 
@@ -128,10 +151,6 @@ public class ReservationSession implements InterfaceReservationSession{
 				catch(ReservationException e) {
 					
 				}
-				
-			//for (int i=0;i<possibleCarTypes.size();i++) {
-			//	CarType carType=possibleCarTypes.iterator().next();
-				
 				
 			}
 		}	

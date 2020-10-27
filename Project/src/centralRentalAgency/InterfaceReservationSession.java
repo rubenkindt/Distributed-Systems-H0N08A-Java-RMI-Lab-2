@@ -17,7 +17,7 @@ public interface InterfaceReservationSession extends Remote{
 	public void checkAvailableCarTypes(Date start, Date end) throws RemoteException, RemoteException;
 	public void addQuoteToSession(String name, Date start, Date end, String carType, String region) throws Exception, RemoteException; ;
 
-	public List<Reservation> confirmQuotes(String name2) throws RemoteException, ReservationException;
+	public List<Reservation> confirmQuotes(String name2) throws RemoteException, ReservationException, Exception;
 
 
 	public List<Reservation> getResList() throws RemoteException;
