@@ -25,7 +25,7 @@ public class RentalServer {
 	//                     ^ looks like a CAPITAL 'L' but isn't
 	
 
-	public static List<InterfaceCarRentalCompany> main(int localOrRemote) throws ReservationException, NumberFormatException, IOException {
+	public static ArrayList<InterfaceCarRentalCompany> main(int localOrRemote) throws ReservationException, NumberFormatException, IOException {
 				
 		if (localOrRemote==REMOTE) {
 			if (System.getSecurityManager() != null) {
@@ -49,7 +49,7 @@ public class RentalServer {
 			System.exit(-1);
 		}
 		
-		List<InterfaceCarRentalCompany> comp= new ArrayList<InterfaceCarRentalCompany>();
+		ArrayList<InterfaceCarRentalCompany> comp= new ArrayList<InterfaceCarRentalCompany>();
 		
 		CrcData data  = loadData("hertz.csv");
 		InterfaceCarRentalCompany hertzLocal = link(reg,data);		

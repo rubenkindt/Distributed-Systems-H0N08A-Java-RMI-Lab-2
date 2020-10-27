@@ -32,13 +32,13 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 	// only one Manager
 	private ManagerSession mSession= null;
 
-	private static List<InterfaceCarRentalCompany> comp;
+	public static ArrayList<InterfaceCarRentalCompany> comp;
 	
 	/***************
 	 * CONSTRUCTOR 
 	 ***************/
 
-	public CentralRentalAgency(String name,List<InterfaceCarRentalCompany> comp) {
+	public CentralRentalAgency(String name,ArrayList<InterfaceCarRentalCompany> comp) {
 		logger.log(Level.INFO, "<{0}> Car Rental Company {0} starting up...", name);
 		setName(name);
 		logger.log(Level.INFO, this.toString());

@@ -120,6 +120,9 @@ public class Client extends AbstractTestManagement<ReservationSession,ManagerSes
 
 	@Override
 	protected void checkForAvailableCarTypes(ReservationSession session, Date start, Date end) throws Exception {
+		//System.out.println("00000000000000000000000");
+		//System.out.println(Integer.toString(session.comp.size()));
+		
 		session.checkAvailableCarTYpes(start, end);
 	}
 

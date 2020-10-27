@@ -14,7 +14,7 @@ public class ManagerSession extends ReservationSession{
 
 	private List<ReservationSession> clients =new ArrayList<ReservationSession>();
 	
-	public ManagerSession(String name,List<InterfaceCarRentalCompany> comp, List<ReservationSession> Clients) {
+	public ManagerSession(String name,ArrayList<InterfaceCarRentalCompany> comp, List<ReservationSession> Clients) {
 		super(name,comp);
 		setClients(clients);
 	}

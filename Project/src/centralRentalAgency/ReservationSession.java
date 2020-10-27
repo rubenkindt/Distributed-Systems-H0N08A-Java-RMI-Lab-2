@@ -22,30 +22,35 @@ public class ReservationSession implements Serializable{
 
 	public String name;
 
-	protected static List<InterfaceCarRentalCompany> comp;
+	public static ArrayList<InterfaceCarRentalCompany> comp=null;
 	protected List<Quote> quoteList=new ArrayList<Quote>();
 	protected List<Reservation> resList=null;//new ArrayList<Reservation>();
 	
-	public ReservationSession(String Name,List<InterfaceCarRentalCompany> comp) {
+	public ReservationSession(String Name,ArrayList<InterfaceCarRentalCompany> comp) {
 		this.name=Name;
 		ReservationSession.setComp(comp);
+		
 		System.out.println("AAAAAAAAAAAAAA");
 		System.out.println(Integer.toString(ReservationSession.getComp().size()));
 		System.out.println("BBBBBBBBBBBBBBBBBBBB");
 		
 	}
 	
-	public static List<InterfaceCarRentalCompany> getComp() {
-		return comp;
+	public static ArrayList<InterfaceCarRentalCompany> getComp() {
+		return ReservationSession.comp;
 	}
 
-	public static void setComp(List<InterfaceCarRentalCompany> comp) {
+	public static void setComp(ArrayList<InterfaceCarRentalCompany> comp) {
 		ReservationSession.comp = comp;
 	}
 
 	public void checkAvailableCarTYpes(Date start, Date end) throws RemoteException{
 		//following javaDoc: return void
+		//List<InterfaceCarRentalCompany> companies=ReservationSession.getComp();
+		
+		System.out.println("name: "+this.name);
 		System.out.println("CCCCCCCC");
+		
 		System.out.println(Integer.toString(ReservationSession.getComp().size()));
 		System.out.println("DDDDDDDD");
 		
@@ -53,8 +58,8 @@ public class ReservationSession implements Serializable{
 
 		System.out.println("EEEEEEEE");
 		
-		for (int i=0;i<comp.size();i++) {
-			Set<CarType> out=comp.get(i).getAvailableCarTypes(start, end);
+		for (int i=0;i<ReservationSession.getComp().size();i++) {
+			Set<CarType> out=ReservationSession.getComp().get(i).getAvailableCarTypes(start, end);
 			
 			for (int j=0;j<out.size();j++) {
 				s.add(out.iterator().next());

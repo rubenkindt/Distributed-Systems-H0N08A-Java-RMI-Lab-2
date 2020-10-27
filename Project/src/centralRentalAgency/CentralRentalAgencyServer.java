@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,7 +70,7 @@ public class CentralRentalAgencyServer {
 		}
 		
 		//sets stubs of companies (herz and dockx)
-		List<InterfaceCarRentalCompany> comp;
+		ArrayList<InterfaceCarRentalCompany> comp;
 		//RentalServer companies =new RentalServer();
 		comp=RentalServer.main(localOrRemote);
 		
