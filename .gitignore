@@ -8,3 +8,4 @@ t.txt
 Project/bin/*
 
 Project/bin/
+*.class
