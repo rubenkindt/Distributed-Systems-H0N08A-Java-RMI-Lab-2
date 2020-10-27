@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -34,12 +35,19 @@ public class ManagerSession extends ReservationSession implements InterfaceReser
 	}
 
 	public int getNumberOfReservationsForCarType(String carRentalName, String carType) throws Exception {
+		InterfaceCarRentalCompany compa=null;
+		
 		for (int i=0;i<ReservationSession.getComp().size();i++) {
 			if (ReservationSession.getComp().get(i).getName().equals(carRentalName)) {
-				return ReservationSession.getComp().get(i).getNumberOfReservationsForCarType(carType);
+				compa=ReservationSession.getComp().get(i);
+				break;
 			}
 		}
-		throw new Exception("Did not find carRentalName: "+carRentalName+" or CarType: "+carType);
+		if (compa==null) {
+			throw new Exception("Can not find company with: "+carRentalName+" As name");
+		}
+		int nr= compa.getNumberOfReservationsForCarType(carType);
+		return nr;
 	}
 
 	public Set<String> getBestClients() throws RemoteException{
@@ -64,24 +72,37 @@ public class ManagerSession extends ReservationSession implements InterfaceReser
 		return bestC;
 	}
 
-	public CarType getMostPopularCarTypeInCRC(String carRentalCompanyName, int year) throws RemoteException {
+	public CarType getMostPopularCarTypeInCRC(String carRentalCompanyName, int year) throws Exception {
+		
 		int mostPop=0;
 		CarType best=null;
+		
+		InterfaceCarRentalCompany compa=null;
+		
 		for (int i=0;i<ReservationSession.getComp().size();i++) {
 			if(ReservationSession.getComp().get(i).getName().equals(carRentalCompanyName)) {
-				Collection<CarType> col= ReservationSession.getComp().get(i).getAllCarTypes();
-				
-				for (int j=0;j<col.size();j++) {
-					CarType current = col.iterator().next();
-					
-					if(mostPop>ReservationSession.getComp().get(i).getNumberOfReservationsForCarType(current.getName())) {
-						mostPop=ReservationSession.getComp().get(i).getNumberOfReservationsForCarType(current.getName());
-						best=current;
-					}
-				}
+				compa=ReservationSession.getComp().get(i);
+				break;
+			}
+		}
+		
+		if(compa==null) {
+			throw new Exception("No company found with "+carRentalCompanyName+" as Name.");
+		}
+		
+	
+		Collection<CarType> col= compa.getAllCarTypes();
+		
+		for (Iterator<CarType> iterator = col.iterator(); iterator.hasNext();) {
+			CarType current = (CarType) iterator.next();
+			
+			if(mostPop<compa.getNumberOfReservationsForCarType(current.getName())) {
+				mostPop=compa.getNumberOfReservationsForCarType(current.getName());
+				best=current;
 			}
 		}
 		return best;
+	
 	}
 	
 	public void removeClient(String clientName) throws RemoteException{

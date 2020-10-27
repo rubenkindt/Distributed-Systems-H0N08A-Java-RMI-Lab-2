@@ -207,7 +207,7 @@ public abstract class AbstractTestBooking<ReservationSession, ManagerSession> ex
 			if (Integer.parseInt(pars) == nr) {
 				System.out.println(name + " has correct totals " + pars + " " + nr);
 			} else {
-				System.err.println(name + " has wrong totals " + pars +" " + nr );
+				System.err.println(name + " has wrong totals " + pars +" " + nr);
 			}
 		}
 	}
@@ -223,7 +223,7 @@ public abstract class AbstractTestBooking<ReservationSession, ManagerSession> ex
             if (Integer.parseInt(pair[1]) == nr) {
                 System.out.println(name + " has correct totals " + pars + " " + nr);
             } else {
-                System.err.println(name + " has wrong totals " + pars + " " + nr);
+                System.err.println(name + " has wrong totals " + pars + " " + nr+" parsed/ourOutput");
             }
         }
     }

@@ -101,16 +101,20 @@ public class CarRentalCompany implements InterfaceCarRentalCompany{
 	/*********
 	 * CARS *
 	 *********/
-public int getNumberOfReservationsForCarType(String carType) {
+	public int getNumberOfReservationsForCarType(String carType) {
 		
 		int nrofRes=0;
+		//System.out.println("AAAAAAAAAAAAAAAAAAA");
+		
 		for (int car =0;car<cars.size();car++) {
 			
-			if (cars.get(car).getType().getName()==carType) {
+			if (cars.get(car).getType().getName().equals(carType)) {
 				
 				nrofRes += cars.get(car).GetReservations().size();
 			}
 		}
+		//System.out.println("BBBBBBBBBBBBBBBBBBBBB");
+		//System.out.println(nrofRes);
 		return nrofRes;
 	}
 

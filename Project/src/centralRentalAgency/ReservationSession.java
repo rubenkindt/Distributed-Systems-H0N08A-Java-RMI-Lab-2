@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -51,25 +52,15 @@ public class ReservationSession implements InterfaceReservationSession{
 	}
 
 	public void checkAvailableCarTypes(Date start, Date end) throws RemoteException{
-		//following javaDoc: return void
-		//List<InterfaceCarRentalCompany> companies=ReservationSession.getComp();
-		
-		/*System.out.println("name: "+this.name);
-		System.out.println("CCCCCCCC");
-		
-		System.out.println(Integer.toString(ReservationSession.getComp().size()));
-		System.out.println("DDDDDDDD");
-		*/
-		Set<CarType> s = new HashSet<CarType>();
 
-		//System.out.println("EEEEEEEE");
+		Set<CarType> s = new HashSet<CarType>();
 		
 		for (int i=0;i<ReservationSession.getComp().size();i++) {
 			Set<CarType> out=ReservationSession.getComp().get(i).getAvailableCarTypes(start, end);
-			
-			for (int j=0;j<out.size();j++) {
 
-				System.out.println(out.iterator().next().toString());
+
+			for (Iterator<CarType> iterator = out.iterator(); iterator.hasNext();) {
+				System.out.println((String) iterator.next().toString());
 			}
 
 		}
@@ -122,17 +113,26 @@ public class ReservationSession implements InterfaceReservationSession{
 
 	public String getCheapestCarType(Date start, Date end, String region) throws Exception {
 		
-		
-		
 		List<Quote> q=new ArrayList<Quote>();
 		for (int j=0;j<ReservationSession.getComp().size();j++) {
 			InterfaceCarRentalCompany compan=ReservationSession.getComp().get(j);
 			Collection<CarType> possibleCarTypes= compan.getAllCarTypes();
 			
-			for (int i=0;i<possibleCarTypes.size();i++) {
-				CarType carType=possibleCarTypes.iterator().next();
-				ReservationConstraints constraint = new ReservationConstraints(start, end, carType.getName(), region);
-				q.add(compan.createQuote(constraint, name));
+			for (Iterator<CarType> iterator = possibleCarTypes.iterator(); iterator.hasNext();) {
+				CarType carType = (CarType) iterator.next(); 
+				
+				try {
+					ReservationConstraints constraint = new ReservationConstraints(start, end, carType.getName(), region);
+					q.add(compan.createQuote(constraint, name));
+				}
+				catch(ReservationException e) {
+					
+				}
+				
+			//for (int i=0;i<possibleCarTypes.size();i++) {
+			//	CarType carType=possibleCarTypes.iterator().next();
+				
+				
 			}
 		}	
 		if (q.size()==0) {
