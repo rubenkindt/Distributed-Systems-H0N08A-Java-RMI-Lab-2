@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import rental.CarType;
 import rental.Reservation;
 import centralRentalAgency.InterfaceCentralRentalAgency;
+import centralRentalAgency.InterfaceManagerSession;
 import centralRentalAgency.ManagerSession;
 import centralRentalAgency.ReservationSession;
 
@@ -110,12 +111,12 @@ public class Client extends AbstractTestManagement<ReservationSession,ManagerSes
 	
 	@Override
 	protected ReservationSession getNewReservationSession(String name) throws Exception {
-		return cra.getNewReservationSession(name);
+		return (ReservationSession)cra.getNewReservationSession(name);
 	}
 
 	@Override
 	protected ManagerSession getNewManagerSession(String name) throws Exception {
-		return cra.getNewManagerSession(name);
+		return (ManagerSession)cra.getNewManagerSession(name);
 	}
 
 	@Override

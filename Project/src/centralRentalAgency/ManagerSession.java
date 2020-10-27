@@ -10,18 +10,17 @@ import java.util.Set;
 import rental.CarType;
 import rental.InterfaceCarRentalCompany;
 
-public class ManagerSession extends ReservationSession{
+public class ManagerSession extends ReservationSession implements InterfaceReservationSession, InterfaceManagerSession{
 
 	private List<ReservationSession> clients =new ArrayList<ReservationSession>();
 	
-	public ManagerSession(String name,ArrayList<InterfaceCarRentalCompany> comp, List<ReservationSession> Clients) {
+	public ManagerSession(String name,ArrayList<InterfaceCarRentalCompany> comp, List<ReservationSession> Clients) throws RemoteException {
 		super(name,comp);
 		setClients(clients);
 	}
 	public void setClients(List<ReservationSession> clients) {
 		this.clients = clients;
 	}
-
 
 	public int getNumberOfReservationsByRenter(String clientName) throws Exception{
 		for (int i=0;i<clients.size();i++) {
@@ -41,7 +40,7 @@ public class ManagerSession extends ReservationSession{
 		throw new Exception("Did not find carRentalName: "+carRentalName+" or CarType: "+carType);
 	}
 
-	public Set<String> getBestClients() {
+	public Set<String> getBestClients() throws RemoteException{
 		Set<String> bestC=new HashSet<String>();
 		int best=0;
 		for (int i=0;i<clients.size();i++) {
@@ -77,7 +76,7 @@ public class ManagerSession extends ReservationSession{
 		return best;
 	}
 	
-	public void removeClient(String clientName) {
+	public void removeClient(String clientName) throws RemoteException{
 		
 		for (int client=0;client<clients.size();client++) {
 			if (clients.get(client).name.equals(clientName)) {
@@ -86,7 +85,7 @@ public class ManagerSession extends ReservationSession{
 		}
 		
 	}
-	public void addClient(ReservationSession resSession) {
+	public void addClient(ReservationSession resSession) throws RemoteException{
 		clients.add(resSession);
 		
 	}

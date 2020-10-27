@@ -58,7 +58,7 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 	}
 
     @Override
-	public ReservationSession getNewReservationSession(String name) {
+	public ReservationSession getNewReservationSession(String name) throws RemoteException {
 		ReservationSession resSession = new ReservationSession(name, comp);
 		resSessions.put(name, resSession);
 		if (mSession!=null) {
@@ -68,7 +68,7 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 	}
 
 	@Override
-	public void removeReservationSession(String name) {
+	public void removeReservationSession(String name) throws RemoteException {
 		resSessions.remove(name);
 		if (mSession!=null) {
 			mSession.removeClient(name);
@@ -77,7 +77,7 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 
 	
 	@Override
-	public ManagerSession getNewManagerSession(String name) {
+	public ManagerSession getNewManagerSession(String name) throws RemoteException {
 		List<ReservationSession> clients = new ArrayList<ReservationSession>(resSessions.values());
 		this.mSession = new ManagerSession(name,comp,clients);
 		return this.mSession ;

@@ -15,10 +15,7 @@ import rental.Reservation;
 import rental.ReservationConstraints;
 import rental.ReservationException;
 
-public class ReservationSession implements Serializable{
-
-	
-	private static final long serialVersionUID = 1L;
+public class ReservationSession implements InterfaceReservationSession{
 
 	public String name;
 
@@ -26,7 +23,8 @@ public class ReservationSession implements Serializable{
 	protected List<Quote> quoteList=new ArrayList<Quote>();
 	protected List<Reservation> resList=null;//new ArrayList<Reservation>();
 	
-	public ReservationSession(String Name,ArrayList<InterfaceCarRentalCompany> comp) {
+	
+	public ReservationSession(String Name,ArrayList<InterfaceCarRentalCompany> comp) throws RemoteException{
 		this.name=Name;
 		ReservationSession.setComp(comp);
 		
@@ -35,6 +33,7 @@ public class ReservationSession implements Serializable{
 		System.out.println("BBBBBBBBBBBBBBBBBBBB");
 		
 	}
+	
 	
 	public static ArrayList<InterfaceCarRentalCompany> getComp() {
 		return ReservationSession.comp;
@@ -68,7 +67,7 @@ public class ReservationSession implements Serializable{
 		}
 	}
 
-	public void addQuoteToSession(String name, Date start, Date end, String carType, String region) throws Exception {
+	public void addQuoteToSession(String name, Date start, Date end, String carType, String region) throws Exception{
 
 		ReservationConstraints constraint = new ReservationConstraints(end, end, region, region);
 		List<Quote> q=new ArrayList<Quote>();
@@ -109,7 +108,7 @@ public class ReservationSession implements Serializable{
 		return resList;
 	}
 
-	public String getCheapestCarType(Date start, Date end, String region) throws Exception {
+	public String getCheapestCarType(Date start, Date end, String region) throws RemoteException, ReservationException {
 		
 		ReservationConstraints constraint = new ReservationConstraints(end, end, region, region);
 		List<Quote> q=new ArrayList<Quote>();
@@ -129,6 +128,11 @@ public class ReservationSession implements Serializable{
 		
 		return cheap.getCarType();
 	}
+
+
+	
+
+
 
 
 	
