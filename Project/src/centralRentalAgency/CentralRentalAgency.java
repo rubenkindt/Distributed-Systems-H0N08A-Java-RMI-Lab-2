@@ -4,6 +4,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -27,10 +28,10 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 	private static Logger logger = Logger.getLogger(CentralRentalAgency.class.getName());
 	
 	private String name;
-	private Map<String, ReservationSession> resSessions = new HashMap<String, ReservationSession>();
+	private Map<String, InterfaceReservationSession> resSessions = new HashMap<String, InterfaceReservationSession>();
 	//private Map<String, ManagerSession> mSessions = new HashMap<String, ManagerSession>();
 	// only one Manager
-	private ManagerSession mSession= null;
+	private InterfaceManagerSession mSession= null;
 
 	public static ArrayList<InterfaceCarRentalCompany> comp;
 	
@@ -58,13 +59,16 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 	}
 
     @Override
-	public ReservationSession getNewReservationSession(String name) throws RemoteException {
-		ReservationSession resSession = new ReservationSession(name, comp);
+	public InterfaceReservationSession getNewReservationSession(String name) throws RemoteException {
+		InterfaceReservationSession resSession = new ReservationSession(name, comp);
+		
+		InterfaceReservationSession stub = (InterfaceReservationSession) UnicastRemoteObject.exportObject(resSession,0);
+		
 		resSessions.put(name, resSession);
 		if (mSession!=null) {
 			mSession.addClient(resSession);
 		}
-		return resSession;
+		return stub;
 	}
 
 	@Override
@@ -77,10 +81,15 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 
 	
 	@Override
-	public ManagerSession getNewManagerSession(String name) throws RemoteException {
-		List<ReservationSession> clients = new ArrayList<ReservationSession>(resSessions.values());
-		this.mSession = new ManagerSession(name,comp,clients);
-		return this.mSession ;
+	public InterfaceManagerSession getNewManagerSession(String name) throws RemoteException {
+		
+		List<InterfaceReservationSession> clients = new ArrayList<InterfaceReservationSession>(resSessions.values());
+
+		mSession = new ManagerSession(name,comp,clients);
+		
+		InterfaceManagerSession stub = (InterfaceManagerSession) UnicastRemoteObject.exportObject(mSession,0);
+		
+		return stub ;
 	}
 
 	@Override

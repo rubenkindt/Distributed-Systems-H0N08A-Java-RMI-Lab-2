@@ -12,19 +12,21 @@ import rental.InterfaceCarRentalCompany;
 
 public class ManagerSession extends ReservationSession implements InterfaceReservationSession, InterfaceManagerSession{
 
-	private List<ReservationSession> clients =new ArrayList<ReservationSession>();
+	private List<InterfaceReservationSession> clients =new ArrayList<InterfaceReservationSession>();
 	
-	public ManagerSession(String name,ArrayList<InterfaceCarRentalCompany> comp, List<ReservationSession> Clients) throws RemoteException {
+	public ManagerSession(String name,ArrayList<InterfaceCarRentalCompany> comp, List<InterfaceReservationSession> clients) throws RemoteException {
 		super(name,comp);
 		setClients(clients);
 	}
-	public void setClients(List<ReservationSession> clients) {
+	public void setClients(List<InterfaceReservationSession> clients) {
 		this.clients = clients;
 	}
 
 	public int getNumberOfReservationsByRenter(String clientName) throws Exception{
+		
+		
 		for (int i=0;i<clients.size();i++) {
-			if(clients.get(i).name.equals(clientName)){
+			if(clients.get(i).getName().equals(clientName)){
 				return clients.get(i).getResList().size();
 			}
 		}
@@ -32,9 +34,9 @@ public class ManagerSession extends ReservationSession implements InterfaceReser
 	}
 
 	public int getNumberOfReservationsForCarType(String carRentalName, String carType) throws Exception {
-		for (int i=0;i<comp.size();i++) {
-			if (comp.get(i).getName().equals(carRentalName)) {
-				return comp.get(i).getNumberOfReservationsForCarType(carType);
+		for (int i=0;i<ReservationSession.getComp().size();i++) {
+			if (ReservationSession.getComp().get(i).getName().equals(carRentalName)) {
+				return ReservationSession.getComp().get(i).getNumberOfReservationsForCarType(carType);
 			}
 		}
 		throw new Exception("Did not find carRentalName: "+carRentalName+" or CarType: "+carType);
@@ -43,31 +45,37 @@ public class ManagerSession extends ReservationSession implements InterfaceReser
 	public Set<String> getBestClients() throws RemoteException{
 		Set<String> bestC=new HashSet<String>();
 		int best=0;
+		bestC.clear();
+		
 		for (int i=0;i<clients.size();i++) {
-			if (best>clients.get(i).getResList().size()) {
+			clients.get(i).getResList().size();
+
+			if (best<clients.get(i).getResList().size()) {
 				best=clients.get(i).getResList().size();
 				bestC.clear();
-				bestC.add(clients.get(i).name);
+				bestC.add(clients.get(i).getName());
 				
-			}else if (best==clients.get(i).getResList().size()) {
-				bestC.add(clients.get(i).name);
+			}
+			if (best==clients.get(i).getResList().size()) {
+				bestC.add(clients.get(i).getName());
 			}
 		}		
+		
 		return bestC;
 	}
 
 	public CarType getMostPopularCarTypeInCRC(String carRentalCompanyName, int year) throws RemoteException {
 		int mostPop=0;
 		CarType best=null;
-		for (int i=0;i<comp.size();i++) {
-			if(comp.get(i).getName().equals(carRentalCompanyName)) {
-				Collection<CarType> col= comp.get(i).getAllCarTypes();
+		for (int i=0;i<ReservationSession.getComp().size();i++) {
+			if(ReservationSession.getComp().get(i).getName().equals(carRentalCompanyName)) {
+				Collection<CarType> col= ReservationSession.getComp().get(i).getAllCarTypes();
 				
 				for (int j=0;j<col.size();j++) {
 					CarType current = col.iterator().next();
 					
-					if(mostPop>comp.get(i).getNumberOfReservationsForCarType(current.getName())) {
-						mostPop=comp.get(i).getNumberOfReservationsForCarType(current.getName());
+					if(mostPop>ReservationSession.getComp().get(i).getNumberOfReservationsForCarType(current.getName())) {
+						mostPop=ReservationSession.getComp().get(i).getNumberOfReservationsForCarType(current.getName());
 						best=current;
 					}
 				}
@@ -79,16 +87,17 @@ public class ManagerSession extends ReservationSession implements InterfaceReser
 	public void removeClient(String clientName) throws RemoteException{
 		
 		for (int client=0;client<clients.size();client++) {
-			if (clients.get(client).name.equals(clientName)) {
+			if (clients.get(client).getName().equals(clientName)) {
 				clients.remove(client);
 			}
 		}
 		
 	}
-	public void addClient(ReservationSession resSession) throws RemoteException{
+	public void addClient(InterfaceReservationSession resSession) throws RemoteException{
 		clients.add(resSession);
 		
 	}
+
 	
 	
 }

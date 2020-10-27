@@ -3,11 +3,13 @@ package centralRentalAgency;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import rental.Car;
 import rental.CarType;
 import rental.InterfaceCarRentalCompany;
 import rental.Quote;
@@ -21,19 +23,24 @@ public class ReservationSession implements InterfaceReservationSession{
 
 	public static ArrayList<InterfaceCarRentalCompany> comp=null;
 	protected List<Quote> quoteList=new ArrayList<Quote>();
-	protected List<Reservation> resList=null;//new ArrayList<Reservation>();
+	protected List<Reservation> resList=new ArrayList<Reservation>();//new ArrayList<Reservation>();
 	
 	
 	public ReservationSession(String Name,ArrayList<InterfaceCarRentalCompany> comp) throws RemoteException{
 		this.name=Name;
 		ReservationSession.setComp(comp);
 		
-		System.out.println("AAAAAAAAAAAAAA");
+		/*System.out.println("AAAAAAAAAAAAAA");
 		System.out.println(Integer.toString(ReservationSession.getComp().size()));
 		System.out.println("BBBBBBBBBBBBBBBBBBBB");
-		
+		*/
 	}
 	
+	@Override
+	public String getName() throws RemoteException {
+		return name;
+	}
+
 	
 	public static ArrayList<InterfaceCarRentalCompany> getComp() {
 		return ReservationSession.comp;
@@ -43,25 +50,26 @@ public class ReservationSession implements InterfaceReservationSession{
 		ReservationSession.comp = comp;
 	}
 
-	public void checkAvailableCarTYpes(Date start, Date end) throws RemoteException{
+	public void checkAvailableCarTypes(Date start, Date end) throws RemoteException{
 		//following javaDoc: return void
 		//List<InterfaceCarRentalCompany> companies=ReservationSession.getComp();
 		
-		System.out.println("name: "+this.name);
+		/*System.out.println("name: "+this.name);
 		System.out.println("CCCCCCCC");
 		
 		System.out.println(Integer.toString(ReservationSession.getComp().size()));
 		System.out.println("DDDDDDDD");
-		
+		*/
 		Set<CarType> s = new HashSet<CarType>();
 
-		System.out.println("EEEEEEEE");
+		//System.out.println("EEEEEEEE");
 		
 		for (int i=0;i<ReservationSession.getComp().size();i++) {
 			Set<CarType> out=ReservationSession.getComp().get(i).getAvailableCarTypes(start, end);
 			
 			for (int j=0;j<out.size();j++) {
-				s.add(out.iterator().next());
+
+				System.out.println(out.iterator().next().toString());
 			}
 
 		}
@@ -69,17 +77,21 @@ public class ReservationSession implements InterfaceReservationSession{
 
 	public void addQuoteToSession(String name, Date start, Date end, String carType, String region) throws Exception{
 
-		ReservationConstraints constraint = new ReservationConstraints(end, end, region, region);
+		ReservationConstraints constraint = new ReservationConstraints(start, end, carType, region);
 		List<Quote> q=new ArrayList<Quote>();
-		for (int i=0;i<comp.size();i++) {
+		for (int i=0;i<ReservationSession.getComp().size();i++) {
 			try {
-				q.add(comp.get(i).createQuote(constraint, name));
+				q.add(ReservationSession.getComp().get(i).createQuote(constraint, name));
 			} catch (ReservationException e) {
 				
+			}catch (IllegalArgumentException e) {
+				
 			}
-			if (q.get(i)!=null){
-				quoteList.add((Quote) q);
-				return;
+		}
+		for (int i=0;i<q.size();i++){
+			if (q.get(i)!=null) {
+				quoteList.add((Quote) q.get(i));
+				return;	
 			}
 		}
 		
@@ -108,16 +120,27 @@ public class ReservationSession implements InterfaceReservationSession{
 		return resList;
 	}
 
-	public String getCheapestCarType(Date start, Date end, String region) throws RemoteException, ReservationException {
+	public String getCheapestCarType(Date start, Date end, String region) throws Exception {
 		
-		ReservationConstraints constraint = new ReservationConstraints(end, end, region, region);
+		
+		
 		List<Quote> q=new ArrayList<Quote>();
-		for (int company=0;company<comp.size();company++) {
-			q.add(comp.get(company).createQuote(constraint, name));
-		
+		for (int j=0;j<ReservationSession.getComp().size();j++) {
+			InterfaceCarRentalCompany compan=ReservationSession.getComp().get(j);
+			Collection<CarType> possibleCarTypes= compan.getAllCarTypes();
+			
+			for (int i=0;i<possibleCarTypes.size();i++) {
+				CarType carType=possibleCarTypes.iterator().next();
+				ReservationConstraints constraint = new ReservationConstraints(start, end, carType.getName(), region);
+				q.add(compan.createQuote(constraint, name));
+			}
+		}	
+		if (q.size()==0) {
+			throw new Exception("No cars found, therefor not able to any Quotes" );
 		}
+		
 		Quote cheap=q.get(0);
-		for (int quo=1;quo<q.size();quo++) {
+		for (int quo=0;quo<q.size();quo++) {
 			if (q.get(quo)!=null){
 				
 				if (cheap.getRentalPrice()>q.get(quo).getRentalPrice()) {
@@ -129,6 +152,8 @@ public class ReservationSession implements InterfaceReservationSession{
 		return cheap.getCarType();
 	}
 
+
+	
 
 	
 

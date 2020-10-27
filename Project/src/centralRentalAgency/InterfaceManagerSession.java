@@ -18,7 +18,7 @@ public interface InterfaceManagerSession extends Remote {
 	public CarType getMostPopularCarTypeInCRC(String carRentalCompanyName, int year) throws RemoteException;
 	
 	public void removeClient(String clientName) throws RemoteException;
-	public void addClient(ReservationSession resSession) throws RemoteException;
+	public void addClient(InterfaceReservationSession resSession) throws RemoteException;
 
 
 	

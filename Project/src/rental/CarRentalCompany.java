@@ -104,7 +104,7 @@ public class CarRentalCompany implements InterfaceCarRentalCompany{
 public int getNumberOfReservationsForCarType(String carType) {
 		
 		int nrofRes=0;
-		for (int car =0;car<=cars.size();car++) {
+		for (int car =0;car<cars.size();car++) {
 			
 			if (cars.get(car).getType().getName()==carType) {
 				
@@ -117,7 +117,7 @@ public int getNumberOfReservationsForCarType(String carType) {
 	public CarType gethigestNumberOfReservationsForYear(int year) {
 	CarType bestCarType=null;
 	int best=0;
-	for (int car =0;car<=cars.size();car++) {
+	for (int car =0;car<cars.size();car++) {
 		
 		List<Reservation> resList=cars.get(car).GetReservations();
 		int completeConstraint=0;
