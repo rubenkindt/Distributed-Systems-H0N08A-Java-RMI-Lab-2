@@ -93,7 +93,7 @@ public class CentralRentalAgency implements InterfaceCentralRentalAgency{
 	}
 
 	@Override
-	public void removeManagerSession(String name) {
+	public void removeManagerSession() {
 		this.mSession=null;
 	}
 	

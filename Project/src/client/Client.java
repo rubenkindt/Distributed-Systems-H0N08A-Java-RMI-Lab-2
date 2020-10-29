@@ -118,6 +118,14 @@ public class Client extends AbstractTestManagement<InterfaceReservationSession,I
 		return cra.getNewManagerSession(name);
 	}
 
+	protected void closeReservationSession(String name) throws Exception {
+		cra.removeReservationSession(name);
+	}
+
+	protected void closeManagerSession() throws Exception {
+		cra.removeManagerSession();
+	}
+
 	@Override
 	protected void checkForAvailableCarTypes(InterfaceReservationSession session, Date start, Date end) throws Exception {
 		session.checkAvailableCarTypes(start, end);

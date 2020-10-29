@@ -20,7 +20,7 @@ public interface InterfaceCentralRentalAgency extends Remote{
 	public void removeReservationSession(String name) throws RemoteException;
 
 	public InterfaceManagerSession getNewManagerSession(String name) throws RemoteException;
-	public void removeManagerSession(String name) throws RemoteException;
+	public void removeManagerSession() throws RemoteException;
 	 	
 	 
 }
