@@ -1,3 +1,4 @@
+// Implemented by Ruben Kindt
 package rental;
 
 import java.io.BufferedReader;

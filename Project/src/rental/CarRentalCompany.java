@@ -78,7 +78,6 @@ public class CarRentalCompany implements InterfaceCarRentalCompany{
 		throw new IllegalArgumentException("<" + carTypeName + "> No car type of name " + carTypeName);
 	}
 	
-	// mark
 	public boolean isAvailable(String carTypeName, Date start, Date end) {
 		logger.log(Level.INFO, "<{0}> Checking availability for car type {1}", new Object[]{name, carTypeName});
 		if(carTypes.containsKey(carTypeName)) {
@@ -104,7 +103,6 @@ public class CarRentalCompany implements InterfaceCarRentalCompany{
 	public int getNumberOfReservationsForCarType(String carType) {
 		
 		int nrofRes=0;
-		//System.out.println("AAAAAAAAAAAAAAAAAAA");
 		
 		for (int car =0;car<cars.size();car++) {
 			
@@ -113,8 +111,6 @@ public class CarRentalCompany implements InterfaceCarRentalCompany{
 				nrofRes += cars.get(car).GetReservations().size();
 			}
 		}
-		//System.out.println("BBBBBBBBBBBBBBBBBBBBB");
-		//System.out.println(nrofRes);
 		return nrofRes;
 	}
 

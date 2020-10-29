@@ -1,3 +1,4 @@
+// Implemented by Ruben Kindt
 package centralRentalAgency;
 
 import java.rmi.RemoteException;

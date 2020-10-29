@@ -1,3 +1,4 @@
+// Implemented by Ruben Kindt
 package client;
 
 import java.rmi.NotBoundException;
